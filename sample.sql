@@ -1,23 +1,41 @@
 -- Creating tables
 
-CREATE TABLE students (
-       roll INTEGER,
-       fname VARCHAR(50),
-       lname VARCHAR(50),
-       age INTEGER,
-       address TEXT, 
-       contact VARCHAR(15)
-       
+CREATE TABLE artists (
+       id SERIAL,
+       name VARCHAR(100),
+       PRIMARY KEY (id)
+     
 );
 
--- Inserting data
-        
-INSERT INTO students
-        (roll, fname, lname, age, address, contact) 
-VALUES 
-       (1, 'John', 'Smith', 14, 'something street', '+91999999'),
-       (2, 'Jane', 'Doe', 14, 'other street', '+01888888');
+CREATE TABLE tracks (
+       id SERIAL,
+       artist_id INTEGER REFERENCES artists(id),
+       name VARCHAR(200),
+       lyrics TEXT,
+       PRIMARY KEY (id)
 
--- Querying
+       
+       );
 
-SELECT * from students;
+-- CREATE TABLE tags (
+--        id SERIAL,
+--        name VARCHAR(50),
+--        PRIMARY KEY (id)
+-- );
+
+-- CREATE artist_tags (
+--        artist_id INTEGER
+--        tag_id  INTe
+--        );
+
+INSERT INTO tracks (artist_id, name, lyrics) VALUES (1, 'Bad', 'lyrics for Bad'),(1, 'Smooth Criminal', 'lyrics for Smooth criminal'),(2, 'Eminem Song 1', 'lyrics for Eminem Song 1'),(2, 'Eminem Song 2', 'lyrics for Eminem Song 2'),(4, 'Megadeth', 'Countdown to extinction'),(4, 'Megadeth', 'Hangar 18');
+
+INSERT INTO tracks (artist_id, name, lyrics) VALUES (10, 'Megadeth', 'Hangar 18');
+
+
+SELECT a.name as artist,t.name as track,t.lyrics as lyrics FROM artists a, tracks t WHERE a.name = 'Michael Jackson' AND t.artist_id = a.id;
+
+SELECT * FROM tracks;
+
+
+
