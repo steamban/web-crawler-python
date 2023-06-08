@@ -20,16 +20,16 @@ def get_artists(data, count=10):
       Parses the input HTML, find the list of artists. Creates a list as mentioned in outputs and returns the list
     
     """
-
     soup = BeautifulSoup(data, features="html.parser") # Create soup
     artists = soup.find_all("td", {"class": "td-last"}) # Search for all artist td nodes
     ret = []
     for i in artists: # For each td node
         a = i.find("a") # Get the anchor inside the td
         ret.append((a.text.strip(), a["href"])) # Extract the name and target from anchor
-        if count == 0:
-            break
-        count -= 1
+        if count is not None:
+            if count == 0:
+                break
+            count -= 1
     return ret
 
 def get_tracks_of_artist(data, count=5):
@@ -52,9 +52,10 @@ def get_tracks_of_artist(data, count=5):
         lyrics_page = requests.get(track['href']).text
         lyrics = extract_lyrics(lyrics_page)
         ret.append([track.text.strip(), lyrics])
-        if count == 0:
-            break
-        count -=1
+        if count is not None:
+            if count == 0:
+                break
+            count -=1
     return ret
     
 def extract_lyrics(data):
