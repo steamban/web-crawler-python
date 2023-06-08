@@ -77,10 +77,7 @@ def save_track_to_db(artist, track, lyrics, db=db):
         cur.execute("INSERT INTO artists (name) VALUES(%s)", (artist,));
         cur.execute("SELECT id from artists where name = %s", (artist,))
         artist_id = cur.fetchone()[0]
-    print("Id is ", artist_id)
-
-    cur.execute("INSERT INTO lyrics ....")
-
+    cur.execute("INSERT INTO tracks (artist_id, name, lyrics) VALUES (%s, %s, %s)", (artist_id, track, lyrics));
     db.commit()
     cur.close()
 

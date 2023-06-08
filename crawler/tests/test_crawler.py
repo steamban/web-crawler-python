@@ -2,10 +2,15 @@ import os
 
 import crawler
 
-def test_get_popular_artists():
-    data_file = os.path.join(os.path.dirname(__file__), "data", "top-artists-lyrics.html")
+def get_datafile_contents(fname):
+    data_file = os.path.join(os.path.dirname(__file__), "data", fname)
     with open(data_file) as f:
         data = f.read()
+    return data
+        
+
+def test_get_popular_artists():
+    data = get_datafile_contents("top-artists-lyrics.html")
     artists = crawler.get_artists(data)
     name0, link0 = artists[0]
     name1, link1 = artists[1]
@@ -26,3 +31,9 @@ def test_get_popular_artists():
     assert link100 == "https://www.songlyrics.com/shakira-lyrics/"
 
     
+def test_extract_lyrics():
+    data = get_datafile_contents("oceans-where-feet-may-fail-lyrics.html")
+    lyrics = crawler.extract_lyrics(data)
+    assert lyrics.startswith("You call me out upon the waters")
+    assert lyrics.endswith("I am Yours and You are mine")
+
