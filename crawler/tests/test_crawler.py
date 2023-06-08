@@ -11,7 +11,7 @@ def get_datafile_contents(fname):
 
 def test_get_popular_artists():
     data = get_datafile_contents("top-artists-lyrics.html")
-    artists = liblyrics.get_artists(data, None)
+    artists = liblyrics.crawl_artists(data, None)
     name0, link0 = artists[0]
     name1, link1 = artists[1]
     name99, link99 = artists[98]

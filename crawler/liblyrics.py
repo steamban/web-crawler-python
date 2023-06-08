@@ -6,7 +6,28 @@ from bs4 import BeautifulSoup
 
 db = psycopg2.connect("dbname=lyrics")
 
-def get_artists(data, count=10):
+# DB functions
+def initdb():
+    cur = db.cursor()
+    with open("init.sql") as f:
+        cur.execute(f.read())
+    db.commit()
+    cur.close()
+    
+def get_artists():
+    cur = db.cursor()
+    cur.execute("SELECT name from artists ORDER BY name")
+    artists = cur.fetchall()
+    ret = []
+    for i in artists:
+        ret.append(i[0])
+    cur.close()
+    return ret
+
+
+
+# Crawler functions
+def crawl_artists(data, count=10):
     """
     Inputs :
       1. HTML string which contains a list of artists. 
@@ -27,12 +48,13 @@ def get_artists(data, count=10):
         a = i.find("a") # Get the anchor inside the td
         ret.append((a.text.strip(), a["href"])) # Extract the name and target from anchor
         if count is not None:
+            count -= 1
             if count == 0:
                 break
-            count -= 1
+
     return ret
 
-def get_tracks_of_artist(data, count=5):
+def crawl_tracks_of_artist(data, count=5):
     """
     Inputs : 
       HTML string which contains all tracks of a single artist
@@ -53,9 +75,10 @@ def get_tracks_of_artist(data, count=5):
         lyrics = extract_lyrics(lyrics_page)
         ret.append([track.text.strip(), lyrics])
         if count is not None:
+            count -=1
             if count == 0:
                 break
-            count -=1
+
     return ret
     
 def extract_lyrics(data):
@@ -113,18 +136,15 @@ def save_track(artist, track, lyrics, base="lyrics_crawl"):
         f.write(lyrics)
     
 
-def crawl(start_url):
+def crawl(start_url, nartists, ntracks):
     data = requests.get(start_url).text
-    artists = get_artists(data)
+    artists = crawl_artists(data, nartists)
     for artist_name, artist_link in artists:
         print (f"{artist_name} : ", end="", flush = True)
         tracks_page = requests.get(artist_link).text
-        tracks = get_tracks_of_artist(tracks_page)
+        tracks = crawl_tracks_of_artist(tracks_page, ntracks)
         for track_name, lyrics in tracks:
             save_track(artist_name, track_name, lyrics)
             save_track_to_db(artist_name, track_name, lyrics)
             print (".", end="", flush=True)
         print()
-
-if __name__ == "__main__":
-    crawl("https://www.songlyrics.com/top-artists-lyrics.html")
