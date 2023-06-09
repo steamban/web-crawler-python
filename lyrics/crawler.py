@@ -4,7 +4,7 @@ import psycopg2
 import requests
 from bs4 import BeautifulSoup
 
-import db as lyricsdb
+import lyrics.db as lyricsdb
 
 db = psycopg2.connect("dbname=lyrics")
 

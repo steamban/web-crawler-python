@@ -1,6 +1,6 @@
 import os
 
-import crawler
+import lyrics.crawler as crawler
 
 def get_datafile_contents(fname):
     data_file = os.path.join(os.path.dirname(__file__), "data", fname)
