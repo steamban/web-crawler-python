@@ -2,9 +2,8 @@ Song lyrics server
 
 
 # Setup
+ 1. Create virtualenv and activate it
+ 2. `pip install -r requirements.txt`
+ 3. python setup.py develop
+ 4. Run tests using `py.test`
 
-      pip install -r requirements.txt
-      
-Run tests using
-
-      py.test
