@@ -1,12 +1,18 @@
 import argparse
+import logging
 
 import crawler
 import db
+import utils
+
+logger = utils.get_logger()
 
 def parse():
     parser = argparse.ArgumentParser(
         prog = "lyrics",
         description = "Offline song lyrics browser")
+    
+    parser.add_argument("-d", "--debug", help = "Display detailed debug", action="store_true", default=False)
     
     subparsers = parser.add_subparsers(dest="command")
     subparsers.add_parser("listartists", help = "List of artists in the system")
@@ -39,11 +45,13 @@ def handle_crawl(args):
                     args.ntracks)
 
 def main():
+
     commands = {"listartists" : handle_listartists,
                 "initdb"  : handle_initdb ,
                 "crawl" : handle_crawl}
 
     args = parse()
+    utils.setup_logger(args.debug)
     commands[args.command](args)
 
 if __name__ == "__main__":

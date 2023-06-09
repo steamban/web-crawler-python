@@ -5,9 +5,11 @@ import requests
 from bs4 import BeautifulSoup
 
 import lyrics.db as lyricsdb
+import lyrics.utils as utils
 
 db = psycopg2.connect("dbname=lyrics")
 
+logger = utils.get_logger()
 
 # Crawler functions
 def crawl_artists(data, count=10):
@@ -77,10 +79,10 @@ def crawl(start_url, nartists, ntracks):
     data = requests.get(start_url).text
     artists = crawl_artists(data, nartists)
     for artist_name, artist_link in artists:
-        print (f"{artist_name} : ", end="", flush = True)
+        logger.info("Downloading %s", artist_name)
         tracks_page = requests.get(artist_link).text
         tracks = crawl_tracks_of_artist(tracks_page, ntracks)
         for track_name, lyrics in tracks:
             lyricsdb.save_track_to_db(artist_name, track_name, lyrics)
-            print (".", end="", flush=True)
-        print()
+            logger.debug(" Downloading song %s", track_name)
+
