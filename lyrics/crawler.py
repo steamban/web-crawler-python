@@ -4,26 +4,9 @@ import psycopg2
 import requests
 from bs4 import BeautifulSoup
 
+import db as lyricsdb
+
 db = psycopg2.connect("dbname=lyrics")
-
-# DB functions
-def initdb():
-    cur = db.cursor()
-    with open("init.sql") as f:
-        cur.execute(f.read())
-    db.commit()
-    cur.close()
-    
-def get_artists():
-    cur = db.cursor()
-    cur.execute("SELECT name from artists ORDER BY name")
-    artists = cur.fetchall()
-    ret = []
-    for i in artists:
-        ret.append(i[0])
-    cur.close()
-    return ret
-
 
 
 # Crawler functions
@@ -90,52 +73,6 @@ def extract_lyrics(data):
         lyrics = ""
     return lyrics
 
-
-def save_track_to_db(artist, track, lyrics, db=db):
-    cur = db.cursor()
-    cur.execute("SELECT id from artists where name = %s", (artist,))
-    artist_id = cur.fetchone()
-    if artist_id:
-        artist_id = artist_id[0]
-    else:
-        cur.execute("INSERT INTO artists (name) VALUES(%s)", (artist,));
-        cur.execute("SELECT id from artists where name = %s", (artist,))
-        artist_id = cur.fetchone()[0]
-    cur.execute("INSERT INTO tracks (artist_id, name, lyrics) VALUES (%s, %s, %s)", (artist_id, track, lyrics));
-    db.commit()
-    cur.close()
-
-
-def save_track(artist, track, lyrics, base="lyrics_crawl"):
-    """
-    Inputs : 
-       1. artist - String containing the name of the artist
-       2. track - String containing name of the track of the artist
-       3. Lyrics - String containing lyrics of the above track
-       4. base - Base directory to store the artist lyrics
-
-    Outputs: 
-       None
-
-    Description: 
-       Creates files of the forms
-    {artist_name}/{track_name}.txt and stores the lyrics inside them.
-
-    """
-
-    artist = artist.replace("/","_").replace(" ","_").lower()
-    track = track.replace("/","_").replace(" ","_").lower()
-    artist_dir = os.path.join(base, artist)
-
-    if not os.path.exists(artist_dir):
-        os.makedirs(artist_dir)
-    
-    track_path = os.path.join(artist_dir, track) + ".txt"
-    
-    with open(track_path, "w") as f:
-        f.write(lyrics)
-    
-
 def crawl(start_url, nartists, ntracks):
     data = requests.get(start_url).text
     artists = crawl_artists(data, nartists)
@@ -144,7 +81,6 @@ def crawl(start_url, nartists, ntracks):
         tracks_page = requests.get(artist_link).text
         tracks = crawl_tracks_of_artist(tracks_page, ntracks)
         for track_name, lyrics in tracks:
-            save_track(artist_name, track_name, lyrics)
-            save_track_to_db(artist_name, track_name, lyrics)
+            lyricsdb.save_track_to_db(artist_name, track_name, lyrics)
             print (".", end="", flush=True)
         print()

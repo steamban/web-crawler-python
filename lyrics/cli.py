@@ -1,6 +1,7 @@
 import argparse
 
-import liblyrics
+import crawler
+import db
 
 def parse():
     parser = argparse.ArgumentParser(
@@ -24,16 +25,16 @@ def parse():
     return args
 
 def handle_listartists(args):
-    artists = liblyrics.get_artists()
+    artists = db.get_artists()
     for idx, name in enumerate(artists, start=1):
         print (f"{idx}. {name}")
 
 def handle_initdb(args):
-    liblyrics.initdb()
+    db.initdb()
 
 def handle_crawl(args):
     print (args)
-    liblyrics.crawl("https://www.songlyrics.com/top-artists-lyrics.html", 
+    crawler.crawl("https://www.songlyrics.com/top-artists-lyrics.html", 
                     args.nartists, 
                     args.ntracks)
 

@@ -1,6 +1,6 @@
 import os
 
-import liblyrics
+import crawler
 
 def get_datafile_contents(fname):
     data_file = os.path.join(os.path.dirname(__file__), "data", fname)
@@ -11,7 +11,7 @@ def get_datafile_contents(fname):
 
 def test_get_popular_artists():
     data = get_datafile_contents("top-artists-lyrics.html")
-    artists = liblyrics.crawl_artists(data, None)
+    artists = crawler.crawl_artists(data, None)
     name0, link0 = artists[0]
     name1, link1 = artists[1]
     name99, link99 = artists[98]
@@ -33,7 +33,7 @@ def test_get_popular_artists():
     
 def test_extract_lyrics():
     data = get_datafile_contents("oceans-where-feet-may-fail-lyrics.html")
-    lyrics = liblyrics.extract_lyrics(data)
+    lyrics = crawler.extract_lyrics(data)
     assert lyrics.startswith("You call me out upon the waters")
     assert lyrics.endswith("I am Yours and You are mine")
 
