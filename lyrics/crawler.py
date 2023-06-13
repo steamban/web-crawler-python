@@ -4,7 +4,7 @@ import psycopg2
 import requests
 from bs4 import BeautifulSoup
 
-import lyrics.db as lyricsdb
+import models
 import lyrics.utils as utils
 
 db = psycopg2.connect("dbname=lyrics")
@@ -83,7 +83,7 @@ def crawl(start_url, nartists, ntracks):
         tracks_page = requests.get(artist_link).text
         tracks = crawl_tracks_of_artist(tracks_page, ntracks)
         for track_name, lyrics in tracks:
-            lyricsdb.save_track_to_db(artist_name, track_name, lyrics)
+            models.save_track_to_db(artist_name, track_name, lyrics)
 
             logger.debug(" Downloading song %s", track_name)
 

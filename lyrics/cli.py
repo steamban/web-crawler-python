@@ -2,9 +2,9 @@ import argparse
 import logging
 
 import crawler
-import db
 import models
 import utils
+import web
 
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
@@ -19,7 +19,7 @@ def parse():
     parser.add_argument("-d", "--debug", help = "Display detailed debug", action="store_true", default=False)
     
     subparsers = parser.add_subparsers(dest="command")
-    subparsers.add_parser("test", help = "Temporary testing")
+    subparsers.add_parser("web", help = "Run web server")
 
     subparsers.add_parser("listartists", help = "List of artists in the system")
     subparsers.add_parser("initdb", help = "Initialise the database")
@@ -37,15 +37,20 @@ def parse():
     return args
 
 def handle_listartists(args):
-    artists = db.get_artists()
-    for idx, name in enumerate(artists, start=1):
-        print (f"{idx}. {name}")
+    db = models.init_db(web.app, "postgresql:///lyrics")
+    with web.app.app_context():
+        artists = db.session.execute(db.select(models.Artist)).scalars()
+        for idx,artist in enumerate(artists, start=1):
+            print (f"{idx}. {artist.name}")
 
 def handle_initdb(args):
-    db.initdb()
+    db = models.init_db(web.app, "postgresql:///lyrics")
+    with web.app.app_context():
+        db.drop_all()
+        db.create_all()
 
 def handle_crawl(args):
-    print (args)
+    db = models.init_db(web.app, "postgresql:///lyrics")
     crawler.crawl("https://www.songlyrics.com/top-artists-lyrics.html", 
                     args.nartists, 
                     args.ntracks)
@@ -60,11 +65,17 @@ def handle_test(args):
             for song in artist.songs:
                 print("   ", song.name)
 
+def handle_web(args):
+    db = models.init_db(web.app, "postgresql:///lyrics")
+    web.app.run()
+
+
+
 def main():
     commands = {"listartists" : handle_listartists,
                 "initdb"  : handle_initdb ,
                 "crawl" : handle_crawl,
-                "test" : handle_test}
+                "web" : handle_web}
 
     args = parse()
     utils.setup_logger(args.debug)
