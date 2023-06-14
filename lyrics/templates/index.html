@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Welcome to our Lyrics server</title>
+  </head>
+  <body>
+    <h1> Welcome to our Lyrics server</h1>
+    We have the following artists on our system. 
+    <ol>
+      {% for artist in artists %}
+      <li> <a href="{{url_for('artist', artist_id = artist.id)}}">{{artist.name}} </a></li>
+      {% endfor %}
+    </ol>
+  </body>
+</html>

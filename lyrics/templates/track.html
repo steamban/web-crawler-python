@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Welcome to our Lyrics server</title>
+  </head>
+  <body>
+    <h1> {{track.name}}</h1>
+    <h2> By <a href="{{url_for('artist', artist_id=track.artist.id)}}">{{track.artist.name}}</a> </h2>
+    <pre>
+      {{track.lyrics}}
+    </pre>
+  </body>
+</html>

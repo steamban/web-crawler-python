@@ -30,9 +30,7 @@ class Tracks(db.Model):
 def save_track_to_db(artist_name, track_name, lyrics, db=db):
     with web.app.app_context():
         artist = db.session.scalar(db.select(Artist).filter(Artist.name == artist_name))
-        print (f"Query result is {artist}")
         if not artist:
-            print (f"Adding {artist_name}")
             artist = Artist(name = artist_name)
         track = Tracks(name = track_name, lyrics = lyrics, artist=artist)
         db.session.add_all([artist, track])
@@ -42,4 +40,5 @@ def save_track_to_db(artist_name, track_name, lyrics, db=db):
 
 
     
+
 
