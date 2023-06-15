@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title> Welcome to our Lyrics server</title>
-  </head>
-  <body>
-    <h1> Welcome to our Lyrics server</h1>
-    Songs by <em>{{artist.name}}</em>
+{% extends "index.html" %}
+
+{% block songs %}
+    <h3>Tracks</h3>
     <ol>
-      {% for song in artist.tracks %}
+      {% for song in current.tracks %}
       <li> <a href="{{url_for('song', song_id=song.id)}}">{{song.name}}</a> </li>
       {% endfor %}
     </ol>
-  </body>
-</html>
+{% endblock %}

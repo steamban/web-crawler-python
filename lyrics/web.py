@@ -14,15 +14,17 @@ def index():
 @app.route("/artist/<artist_id>")
 def artist(artist_id):
     db = models.init_db(app)
+    artists = db.session.execute(db.select(models.Artist)).scalars()
     artist = db.session.execute(db.select(models.Artist).filter(models.Artist.id == artist_id)).scalar()
-    return render_template("artists.html", artist = artist)
+    return render_template("artists.html", artists = artists, current = artist)
 
 
 @app.route("/song/<song_id>")
 def song(song_id):
     db = models.init_db(app)
+    artists = db.session.execute(db.select(models.Artist)).scalars()
     track = db.session.execute(db.select(models.Tracks).filter(models.Tracks.id == song_id)).scalar()
-    return render_template("track.html", track = track)
+    return render_template("track.html", artists = artists, current = track.artist, track = track)
 
 
 

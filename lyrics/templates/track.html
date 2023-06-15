@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title> Welcome to our Lyrics server</title>
-  </head>
-  <body>
-    <h1> {{track.name}}</h1>
-    <h2> By <a href="{{url_for('artist', artist_id=track.artist.id)}}">{{track.artist.name}}</a> </h2>
-    <pre>
+{% extends "artists.html" %}
+
+{% block lyrics %}
+    <h3> {{track.name}}</h3>
+    <p class="font-monospace">
       {{track.lyrics}}
-    </pre>
-  </body>
-</html>
+    </p>
+{% endblock %}
+
