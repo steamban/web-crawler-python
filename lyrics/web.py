@@ -1,4 +1,6 @@
-from flask import Flask, Response, render_template
+import time
+
+from flask import Flask, Response, render_template, request, jsonify
 
 import models
 
@@ -21,10 +23,16 @@ def artist(artist_id):
 
 @app.route("/song/<song_id>")
 def song(song_id):
+    print (request.headers)
     db = models.init_db(app)
     artists = db.session.execute(db.select(models.Artist)).scalars()
     track = db.session.execute(db.select(models.Tracks).filter(models.Tracks.id == song_id)).scalar()
-    return render_template("track.html", artists = artists, current = track.artist, track = track)
+    print (f"|{request.headers['Accept']}|");
+    if request.headers['Accept'] == "application/json":
+        return jsonify({"name":track.name,
+                        "lyrics":track.lyrics})
+    else:
+        return render_template("track.html", artists = artists, current = track.artist, track = track)
 
 
 

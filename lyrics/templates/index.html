@@ -10,7 +10,7 @@
                 {% if not current%}
                 <a href="{{url_for('artist', artist_id = artist.id)}}">{{artist.name}} </a>
                 {% elif current.id == artist.id %}
-                <a class = "text-info bg-dark" href="{{url_for('artist', artist_id = artist.id)}}">{{artist.name}} </a>
+                <a class = "current text-info bg-dark" href="{{url_for('artist', artist_id = artist.id)}}">{{artist.name}} </a>
                 {% else %}
                 <a href="{{url_for('artist', artist_id = artist.id)}}">{{artist.name}} </a>
                 {% endif %}
