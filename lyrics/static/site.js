@@ -1,21 +1,28 @@
-function update_lyrics(data, status) {
-    $("h3.lyrics").html(data.name);
-    $("p.lyrics").html(data.lyrics);
+'use strict';
+
+const e = React.createElement;
+
+class LikeButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: false };
+  }
+
+  render() {
+    if (this.state.liked) {
+      return 'You liked this.';
+    }
+
+    return e(
+      'button',
+      { onClick: () => this.setState({ liked: true }) },
+      'Click me!'
+    );
+  }
 }
 
-function click_handler(ev) {
-    $("p.lyrics").html("Loading ....");
-    $.ajax({url : ev.target.href,
-            headers : {"Accept": "application/json"},
-            success: update_lyrics
-    });
-    ev.preventDefault();
-    }
+const domContainer = document.querySelector('#react');
 
+const root = ReactDOM.createRoot(domContainer);
 
-function main() {
-    $("ol.artists a").on("click", click_handler);
-    }
-
-$(main);
-
+root.render(e(LikeButton));
