@@ -34,8 +34,20 @@ def song(song_id):
     else:
         return render_template("track.html", artists = artists, current = track.artist, track = track)
 
+@app.route("/songs/<artist_id>")
+def songs(artist_id):
+    db = models.init_db(app)
+    artist = db.session.execute(db.select(models.Artist).filter(models.Artist.id == artist_id)).scalar()
+    tracks = []
+    for i in artist.tracks:
+        t = {"id" : i.id,
+             "name" : i.name,
+             "lyrics" : i.lyrics}
+        tracks.append(t)
 
-
+    ret = { "current" : 0,
+            "tracks": tracks}
+    return jsonify(ret)
 
 @app.route("/user/<id>")
 def users(id):
