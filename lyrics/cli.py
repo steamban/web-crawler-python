@@ -67,7 +67,7 @@ def handle_test(args):
 
 def handle_web(args):
     db = models.init_db(web.app, "postgresql:///lyrics")
-    web.app.run()
+    web.app.run(host="0.0.0.0", port=8000)
 
 
 
