@@ -1,10 +1,19 @@
 import time
 
 from flask import Flask, Response, render_template, request, jsonify
+from flask_cors import CORS
 
 import models
 
 app = Flask("lyrics")
+CORS(app)
+# API endpoints
+@app.route("/api/v1/artist")
+def api_artists():
+    db = models.init_db(app)
+    artists = db.session.execute(db.select(models.Artist)).scalars()
+    ret = [{"id" : i.id, "name" : i.name} for i in artists]
+    return jsonify(dict(artists = ret))
 
 
 @app.route("/")
