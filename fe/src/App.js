@@ -38,21 +38,26 @@ export default function App() {
     }, [selectedTrack]);
 
     function handleArtistClick(id) {
-        setSelectedArtist(id);
-        setSelectedTrack(null);
-        setTracks([]);
-        setLyrics([]);
+        if (id !== selectedArtist) {
+            setSelectedArtist(id);
+            setSelectedTrack(null);
+            setTracks([]);
+            setLyrics([]);
+        }
     }
 
     function handleTrackClick(id) {
-        setSelectedTrack(id);
-        setLyrics([]);
+        if (id !== selectedTrack) {
+            setSelectedTrack(id);
+            setLyrics([]);
+        }
     }
-
+    
     function handleDarkModeToggle() {
-        setIsDarkMode(!isDarkMode);
+        setIsDarkMode(prevMode => !prevMode);
         document.body.classList.toggle("dark-mode");
     }
+    
 
     return (
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
