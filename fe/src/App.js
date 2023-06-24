@@ -96,7 +96,7 @@ export default function App() {
                                             onClick={() => handleTrackClick(track.id)}
                                         >
                                             <div className="d-flex justify-content-center align-items-center">
-                                                <span className={`text-center ${isDarkMode ? 'text-light' : 'text-dark'}`}>{track.name}</span>
+                                                <span className={'text-center'}>{track.name}</span>
                                             </div>
                                         </button>
                                     ))
