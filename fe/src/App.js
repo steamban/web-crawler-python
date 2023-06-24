@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
+import "./App.css"
+
 import axios from "axios";
 
-function App() {
+export default function App() {
     const [artists, setArtists] = useState([]);
     const [selectedArtist, setSelectedArtist] = useState(null);
     const [tracks, setTracks] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState(null);
     const [lyrics, setLyrics] = useState([]);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/api/v1/artist").then((response) => {
@@ -46,18 +49,23 @@ function App() {
         setLyrics([]);
     }
 
+    function handleDarkModeToggle() {
+        setIsDarkMode(!isDarkMode);
+        document.body.classList.toggle("dark-mode");
+    }
+
     return (
-        <div className="container-fluid bg-light p-5">
+        <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
             <h1 className="text-center display-2 text-primary mb-5">Hamon Music Database</h1>
             <div className="row justify-content-center align-items-start">
                 <div className="col-md-4 mb-5">
-                    <h2 className="text-center display-4 text-dark mb-4">Artists</h2>
+                    <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>Artists</h2>
                     <div className="list-group">
                         {artists.map((artist) => (
                             <button
                                 key={artist.id}
                                 type="button"
-                                className={`list-group-item list-group-item-action rounded-lg ${selectedArtist === artist.id ? "active" : ""
+                                className={`list-group-item list-group-item-action rounded-lg text-center ${selectedArtist === artist.id ? "active" : ""
                                     }`}
                                 onClick={() => handleArtistClick(artist.id)}
                             >
@@ -66,10 +74,10 @@ function App() {
                         ))}
                     </div>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 mb-5">
                     {selectedArtist !== null && (
                         <div>
-                            <h2 className="text-center display-4 text-dark mb-4">
+                            <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>
                                 Tracks by {artists.find((a) => a.id === selectedArtist).name}
                             </h2>
                             <ul className="list-group">
@@ -82,36 +90,43 @@ function App() {
                                                 }`}
                                             onClick={() => handleTrackClick(track.id)}
                                         >
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <span className="text-center">{track.name}</span>
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                <span className={`text-center ${isDarkMode ? 'text-light' : 'text-dark'}`}>{track.name}</span>
                                             </div>
                                         </button>
                                     ))
                                 ) : (
-                                    <p className="text-center text-muted my-5">
+                                    <p className={`text-center ${isDarkMode ? 'text-muted' : 'text-secondary'} my-5`}>
                                         No tracks to display.
                                     </p>
                                 )}
                             </ul>
                         </div>
                     )}
+                </div>
+                <div className="row">
+
+
                     {selectedTrack !== null && (
-                        <div className="mt-5">
-                            <h2 className="text-center display-4 text-dark mb-4">
+                        <div className="mt-5 mb-5" >
+                            <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>
                                 Lyrics for{" "}
                                 {tracks.find((t) => t.id === selectedTrack).name}
                             </h2>
                             {lyrics.map((lyric) => (
-                                <div key={lyric.id}>
-                                    <p className="text-center text-dark h6" style={{ whiteSpace: 'pre-line' }}>{lyric.lyrics}</p>
-                                </div>
+                                <p className={`text-center ${isDarkMode ? 'text-light' : 'text-dark'}`} style={{ whiteSpace: 'pre-line' }}>{lyric.lyrics}</p>
                             ))}
                         </div>
                     )}
                 </div>
             </div>
+            <button
+                type="button"
+                className={`btn btn-primary position-relative bottom-0 start-50 translate-middle-x mb-5 ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                onClick={handleDarkModeToggle}
+            >
+                {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            </button>
         </div>
     );
 }
-
-export default App;
