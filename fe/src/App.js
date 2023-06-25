@@ -118,12 +118,28 @@ export default function App() {
     }
 
     function handleCrawl() {
+        const nartists = window.prompt("Enter number of artists: ");
+
+        if (nartists === "" || isNaN(nartists) || Number(nartists) <= 0) {
+            alert("Please enter a valid, numerically positive value for the number of artists.");
+            return;
+        }
+
+        const ntracks = window.prompt("Enter number of tracks per artist: ");
+
+        if (ntracks !== "" && (isNaN(ntracks) || Number(ntracks) <= 0)) {
+            alert("Please enter a valid, numerically positive value for the number of tracks per artist.");
+            return;
+        }
+
         alert("Please wait while we crawl the data. This may take some time.");
-        setTimeout(() => {
-            window.location.reload();
-        }, 60000);
-        axios.post('http://localhost:8000/api/v1/crawl')
-            .then((response) => {
+        
+        axios.post('http://localhost:8000/api/v1/crawl', {
+            param1: nartists,
+            param2: ntracks
+        })
+        .then((response) => {
+                window.location.reload();
                 console.log(response);
                 setArtists(response.data.artists);
             })
@@ -131,6 +147,7 @@ export default function App() {
                 console.error(error);
             });
     }
+
 
     return (
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
