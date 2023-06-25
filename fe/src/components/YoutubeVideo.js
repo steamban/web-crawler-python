@@ -10,7 +10,7 @@ function YoutubeVideo({ artistName, trackName }) {
                 const response = await axios.get(
                     `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
                         `${artistName} ${trackName}`
-                    )}&key=[API_KEY_HERE]`
+                    )}&key=AIzaSyAMGQOGJs_nX24-y1fUHW4slrsS-H-14Hc`
                 );
                 if (response?.data?.items?.length) {
                     setVideoId(response.data.items[0].id.videoId);
@@ -27,8 +27,8 @@ function YoutubeVideo({ artistName, trackName }) {
         {videoId && (
           <iframe
             className="mx-auto d-block"
-            width="560"
-            height="315"
+            width="640"
+            height="360"
             src={`https://www.youtube.com/embed/${videoId}`}
             title={`${artistName} - ${trackName}`}
             allowFullScreen

@@ -52,3 +52,11 @@ a {
 .dark-mode h2.text-dark.mb-4 {
   color: #f5f5f5;
 }
+
+@media (max-width: 767px) {
+  iframe {
+    width: 250px;
+    height: 225px;
+
+  }
+}
