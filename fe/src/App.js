@@ -94,7 +94,7 @@ export default function App() {
     function handleInitializeApp() {
         axios.post('http://localhost:8000/api/v1/initdb')
             .then((response) => {
-                alert("DB has been initailised, Please click the 'Crawl' button to begin crawling for data!");
+                alert("App reset, Please click the 'Fetch' button to begin gather data!");
                 window.location.reload();
                 alert(response.data)
             })
@@ -118,7 +118,7 @@ export default function App() {
             return;
         }
 
-        alert("Please wait while we crawl the data. This may take some time.");
+        alert("Please wait while collect the data. This may take some time.");
 
         axios.post('http://localhost:8000/api/v1/crawl', {
             param1: nartists,
@@ -126,7 +126,6 @@ export default function App() {
         })
             .then((response) => {
                 window.location.reload();
-                console.log(response);
                 setArtists(response.data.artists);
             })
             .catch((error) => {
@@ -140,33 +139,38 @@ export default function App() {
             <h1 className="text-center display-2 text-primary mb-5">Music Database</h1>
             <div className="row justify-content-center align-items-start">
                 {artists.length > 0 && (
-                <ArtistList
-                artists={artists}
-                selectedArtist={selectedArtist}
-                handleArtistClick={handleArtistClick}
-                isDarkMode={isDarkMode}
-                />
+                    <ArtistList
+                        artists={artists}
+                        selectedArtist={selectedArtist}
+                        handleArtistClick={handleArtistClick}
+                        isDarkMode={isDarkMode}
+                    />
                 )}
-
-                <TrackList tracks={tracks} selectedTrack={selectedTrack} handleTrackClick={handleTrackClick} isDarkMode={isDarkMode} selectedArtist={selectedArtist} artists={artists} />
+                <TrackList
+                    tracks={tracks}
+                    selectedTrack={selectedTrack}
+                    handleTrackClick={handleTrackClick}
+                    isDarkMode={isDarkMode}
+                    selectedArtist={selectedArtist}
+                    artists={artists} />
                 <div className="row">
-
-
-                {selectedTrack !== null && (
-                    <Lyrics lyrics={lyrics} selectedTrackName={selectedTrackName} isDarkMode={isDarkMode} selectedArtistName={selectedArtistName}/>
-                )}
+                    {selectedTrack !== null && (
+                        <Lyrics
+                            lyrics={lyrics}
+                            selectedTrackName={selectedTrackName}
+                            isDarkMode={isDarkMode}
+                            selectedArtistName={selectedArtistName} />
+                    )}
                     <ScrollButton isDarkMode={isDarkMode} />
-
-
                 </div>
             </div>
             <div className="bottom-0 d-flex justify-content-center">
-            <BtnGroup
-                isDarkMode={isDarkMode}
-                handleCrawl={handleCrawl}
-                handleDarkModeToggle={handleDarkModeToggle}
-                handleInitializeApp={handleInitializeApp}
-            />
+                <BtnGroup
+                    isDarkMode={isDarkMode}
+                    handleCrawl={handleCrawl}
+                    handleDarkModeToggle={handleDarkModeToggle}
+                    handleInitializeApp={handleInitializeApp}
+                />
             </div>
 
 
