@@ -48,9 +48,12 @@ def init_db():
 
 @app.route("/api/v1/crawl", methods=["POST"])
 def crawl():
-    nartists = request.args.get("nartists", default=8, type=int)
-    ntracks = request.args.get("ntracks", default=5, type=int)
+    data = request.get_json()
+    nartists = data.get("param1", 8)
+    ntracks = data.get("param2", 5)
     crawler.crawl(
-        "https://www.songlyrics.com/top-artists-lyrics.html", nartists, ntracks
+        "https://www.songlyrics.com/top-artists-lyrics.html", int(nartists), int(ntracks)
     )
+    print("---------Done----------")
     return "Crawled lyrics"
+
