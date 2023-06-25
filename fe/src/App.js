@@ -5,6 +5,7 @@ import ScrollButton from "./components/ScrollButton";
 import BtnGroup from "./components/BtnGroup";
 import Lyrics from "./components/Lyrics";
 import TrackList from "./components/TrackList";
+import ArtistList from "./components/ArtistList";
 
 import axios from "axios";
 
@@ -139,21 +140,12 @@ export default function App() {
             <h1 className="text-center display-2 text-primary mb-5">Music Database</h1>
             <div className="row justify-content-center align-items-start">
                 {artists.length > 0 && (
-                    <div className="col-md-4 mb-5">
-                        <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>Artists</h2>
-                        <div className="list-group">
-                            {artists.map((artist) => (
-                                <button
-                                    key={artist.id}
-                                    type="button"
-                                    className={`list-group-item list-group-item-action rounded-lg text-center ${selectedArtist === artist.id ? "active" : ""}`}
-                                    onClick={() => handleArtistClick(artist.id)}
-                                >
-                                    {artist.name}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                <ArtistList
+                artists={artists}
+                selectedArtist={selectedArtist}
+                handleArtistClick={handleArtistClick}
+                isDarkMode={isDarkMode}
+                />
                 )}
 
                 <TrackList tracks={tracks} selectedTrack={selectedTrack} handleTrackClick={handleTrackClick} isDarkMode={isDarkMode} selectedArtist={selectedArtist} artists={artists} />
