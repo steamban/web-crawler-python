@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css"
 
 import YoutubeVideo from "./components/YoutubeVideo";
+import ScrollButton from "./components/ScrollButton";
 
 import axios from "axios";
 
@@ -133,12 +134,12 @@ export default function App() {
         }
 
         alert("Please wait while we crawl the data. This may take some time.");
-        
+
         axios.post('http://localhost:8000/api/v1/crawl', {
             param1: nartists,
             param2: ntracks
         })
-        .then((response) => {
+            .then((response) => {
                 window.location.reload();
                 console.log(response);
                 setArtists(response.data.artists);
@@ -219,17 +220,7 @@ export default function App() {
                             />
                         </div>
                     )}
-                    {showScrollButton && (
-                        <button
-                            type="button"
-                            className={`btn btn-content position-fixed bottom-0 end-0 mb-3 me-3 ${isDarkMode ? "btn-light" : "btn-dark"
-                                }`}
-                            style={{ maxWidth: '70px' }}
-                            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                        >
-                            <i className="bi bi-arrow-up-circle fs-2"></i>
-                        </button>
-                    )}
+                    <ScrollButton isDarkMode={isDarkMode} />
 
 
                 </div>
