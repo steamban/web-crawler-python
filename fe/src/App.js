@@ -102,6 +102,8 @@ export default function App() {
         axios.post('http://localhost:8000/api/v1/initdb')
             .then((response) => {
                 alert("DB has been initailised, Please click the 'Crawl' button to begin crawling for data!");
+                window.location.reload();
+                alert(response.data)
             })
             .catch((error) => {
                 console.error(error);
