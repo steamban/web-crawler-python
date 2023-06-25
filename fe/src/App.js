@@ -14,7 +14,6 @@ export default function App() {
     const [selectedTrack, setSelectedTrack] = useState(null);
     const [lyrics, setLyrics] = useState([]);
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const [showScrollButton, setShowScrollButton] = useState(false);
 
 
     const selectedArtistName = selectedArtist !== null ? artists.find((a) => a.id === selectedArtist).name : '';
@@ -67,23 +66,6 @@ export default function App() {
                 });
         }
     }, [selectedTrack]);
-
-
-    useEffect(() => {
-        function handleScroll() {
-            if (window.scrollY > 0) {
-                setShowScrollButton(true);
-            } else {
-                setShowScrollButton(false);
-            }
-        }
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
 
 
     function handleArtistClick(id) {
