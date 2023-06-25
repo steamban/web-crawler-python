@@ -20,7 +20,6 @@ def api_artists():
 @app.route("/api/v1/artist/<artist_id>")
 def api_artist(artist_id):
     db = models.init_db(app)
-    artists = db.session.execute(db.select(models.Artist)).scalars()
     artist = db.session.execute(
         db.select(models.Artist).filter(models.Artist.id == artist_id)
     ).scalar()
@@ -30,9 +29,7 @@ def api_artist(artist_id):
 
 @app.route("/api/v1/song/<song_id>")
 def song(song_id):
-    print(request.headers)
     db = models.init_db(app)
-    artists = db.session.execute(db.select(models.Artist)).scalars()
     track = db.session.execute(
         db.select(models.Tracks).filter(models.Tracks.id == song_id)
     ).scalar()
