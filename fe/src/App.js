@@ -3,6 +3,7 @@ import "./App.css"
 
 import YoutubeVideo from "./components/YoutubeVideo";
 import ScrollButton from "./components/ScrollButton";
+import BtnGroup from "./components/BtnGroup";
 
 import axios from "axios";
 
@@ -226,25 +227,12 @@ export default function App() {
                 </div>
             </div>
             <div className="bottom-0 d-flex justify-content-center">
-                <div className="btn-group mb-5" role="group" aria-label="Button Group">
-                    <button type="button" className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`} onClick={handleCrawl}>
-                        Fetch
-                    </button>
-                    <button
-                        type="button"
-                        className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
-                        onClick={handleDarkModeToggle}
-                    >
-                        {isDarkMode ? <i className="bi bi-brightness-high fs-3"></i> : <i className="bi bi-moon fs-3"></i>}
-                    </button>
-                    <button
-                        type="button"
-                        className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
-                        onClick={handleInitializeApp}
-                    >
-                        Reset
-                    </button>
-                </div>
+            <BtnGroup
+                isDarkMode={isDarkMode}
+                handleCrawl={handleCrawl}
+                handleDarkModeToggle={handleDarkModeToggle}
+                handleInitializeApp={handleInitializeApp}
+            />
             </div>
 
 
