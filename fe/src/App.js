@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css"
 
-import YoutubeVideo from "./components/YoutubeVideo";
 import ScrollButton from "./components/ScrollButton";
 import BtnGroup from "./components/BtnGroup";
+import Lyrics from "./components/Lyrics";
 
 import axios from "axios";
 
@@ -206,21 +206,9 @@ export default function App() {
                 <div className="row">
 
 
-                    {selectedTrack !== null && (
-                        <div className="mt-5 mb-5" >
-                            <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>
-                                Lyrics for{" "}
-                                {tracks.find((t) => t.id === selectedTrack).name}
-                            </h2>
-                            {lyrics.map((lyric) => (
-                                <p className={`text-center ${isDarkMode ? 'text-light' : 'text-dark'}`} style={{ whiteSpace: 'pre-line' }}>{lyric.lyrics}</p>
-                            ))}
-                            <YoutubeVideo
-                                artistName={selectedArtistName}
-                                trackName={selectedTrackName}
-                            />
-                        </div>
-                    )}
+                {selectedTrack !== null && (
+                    <Lyrics lyrics={lyrics} selectedTrackName={selectedTrackName} isDarkMode={isDarkMode} selectedArtistName={selectedArtistName}/>
+                )}
                     <ScrollButton isDarkMode={isDarkMode} />
 
 
