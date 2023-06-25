@@ -98,6 +98,30 @@ export default function App() {
         document.body.classList.toggle("dark-mode");
     }
 
+    function handleInitializeApp() {
+        axios.post('http://localhost:8000/api/v1/initdb')
+            .then((response) => {
+                alert("DB has been initailised, Please click the 'Crawl' button to begin crawling for data!");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    function handleCrawl() {
+        alert("Please wait while we crawl the data. This may take some time.");
+        setTimeout(() => {
+            window.location.reload();
+        }, 60000);
+        axios.post('http://localhost:8000/api/v1/crawl')
+            .then((response) => {
+                console.log(response);
+                setArtists(response.data.artists);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
@@ -180,13 +204,30 @@ export default function App() {
 
                 </div>
             </div>
-            <button
-                type="button"
-                className={`btn btn-primary position-relative bottom-0 start-50 translate-middle-x mb-5 ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
-                onClick={handleDarkModeToggle}
-            >
-                {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            </button>
+            <div className="btn-group mb-5" role="group" aria-label="Button Group">
+                <button
+                    type="button"
+                    className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                    onClick={handleCrawl}
+                >
+                    Crawl
+                </button>
+                <button
+                    type="button"
+                    className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                    onClick={handleDarkModeToggle}
+                >
+                    {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                </button>
+                <button
+                    type="button"
+                    className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                    onClick={handleInitializeApp}
+                >
+                    Initialize App
+                </button>
+            </div>
+
         </div>
     );
 }
