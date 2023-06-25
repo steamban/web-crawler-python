@@ -134,7 +134,7 @@ export default function App() {
 
     return (
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
-            <h1 className="text-center display-2 text-primary mb-5">Hamon Music Database</h1>
+            <h1 className="text-center display-2 text-primary mb-5">Music Database</h1>
             <div className="row justify-content-center align-items-start">
                 {artists.length > 0 && (
                     <div className="col-md-4 mb-5">
@@ -220,7 +220,7 @@ export default function App() {
             <div className="bottom-0 d-flex justify-content-center">
                 <div className="btn-group mb-5" role="group" aria-label="Button Group">
                     <button type="button" className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`} onClick={handleCrawl}>
-                        Crawl
+                        Fetch
                     </button>
                     <button
                         type="button"
@@ -234,7 +234,7 @@ export default function App() {
                         className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
                         onClick={handleInitializeApp}
                     >
-                        Initialize App
+                        Reset
                     </button>
                 </div>
             </div>
