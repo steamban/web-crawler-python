@@ -227,7 +227,7 @@ export default function App() {
                         className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
                         onClick={handleDarkModeToggle}
                     >
-                        {isDarkMode ? <i class="bi bi-brightness-high fs-3"></i> : <i class="bi bi-moon fs-3"></i>}
+                        {isDarkMode ? <i className="bi bi-brightness-high fs-3"></i> : <i className="bi bi-moon fs-3"></i>}
                     </button>
                     <button
                         type="button"
