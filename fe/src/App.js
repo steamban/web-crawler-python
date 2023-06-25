@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css"
 
+import YoutubeVideo from "./components/YoutubeVideo";
+
 import axios from "axios";
 
 export default function App() {
@@ -11,6 +13,11 @@ export default function App() {
     const [lyrics, setLyrics] = useState([]);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [showScrollButton, setShowScrollButton] = useState(false);
+
+
+    const selectedArtistName = selectedArtist !== null ? artists.find((a) => a.id === selectedArtist).name : '';
+    const selectedTrackName = selectedTrack !== null ? tracks.find((t) => t.id === selectedTrack).name : '';
+
 
 
     useEffect(() => {
@@ -189,6 +196,10 @@ export default function App() {
                             {lyrics.map((lyric) => (
                                 <p className={`text-center ${isDarkMode ? 'text-light' : 'text-dark'}`} style={{ whiteSpace: 'pre-line' }}>{lyric.lyrics}</p>
                             ))}
+                            <YoutubeVideo
+                                artistName={selectedArtistName}
+                                trackName={selectedTrackName}
+                            />
                         </div>
                     )}
                     {showScrollButton && (
