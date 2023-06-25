@@ -10,7 +10,7 @@ function YoutubeVideo({ artistName, trackName }) {
                 const response = await axios.get(
                     `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
                         `${artistName} ${trackName}`
-                    )}&key=AIzaSyAMGQOGJs_nX24-y1fUHW4slrsS-H-14Hc`
+                    )}&key=[YOUR_API_KEY_HERE]`
                 );
                 if (response?.data?.items?.length) {
                     setVideoId(response.data.items[0].id.videoId);
