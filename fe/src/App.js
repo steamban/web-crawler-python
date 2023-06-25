@@ -217,21 +217,21 @@ export default function App() {
 
                 </div>
             </div>
-            <div class="bottom-0 d-flex justify-content-center">
-                <div class="btn-group mb-5" role="group" aria-label="Button Group">
-                    <button type="button" class={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`} onClick={handleCrawl}>
+            <div className="bottom-0 d-flex justify-content-center">
+                <div className="btn-group mb-5" role="group" aria-label="Button Group">
+                    <button type="button" className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`} onClick={handleCrawl}>
                         Crawl
                     </button>
                     <button
                         type="button"
-                        class={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                        className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
                         onClick={handleDarkModeToggle}
                     >
                         {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
                     </button>
                     <button
                         type="button"
-                        class={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
+                        className={`btn ${isDarkMode ? 'btn-light' : 'btn-dark'}`}
                         onClick={handleInitializeApp}
                     >
                         Initialize App
