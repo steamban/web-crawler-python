@@ -24,7 +24,7 @@ export default function App() {
             console.log(error);
         });
     }, []);
-    
+
     useEffect(() => {
         if (selectedArtist !== null) {
             axios
@@ -41,7 +41,7 @@ export default function App() {
                 });
         }
     }, [selectedArtist]);
-    
+
     useEffect(() => {
         if (selectedTrack !== null) {
             axios
@@ -58,7 +58,7 @@ export default function App() {
                 });
         }
     }, [selectedTrack]);
-    
+
 
     useEffect(() => {
         function handleScroll() {
@@ -103,22 +103,24 @@ export default function App() {
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
             <h1 className="text-center display-2 text-primary mb-5">Hamon Music Database</h1>
             <div className="row justify-content-center align-items-start">
-                <div className="col-md-4 mb-5">
-                    <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>Artists</h2>
-                    <div className="list-group">
-                        {artists.map((artist) => (
-                            <button
-                                key={artist.id}
-                                type="button"
-                                className={`list-group-item list-group-item-action rounded-lg text-center ${selectedArtist === artist.id ? "active" : ""
-                                    }`}
-                                onClick={() => handleArtistClick(artist.id)}
-                            >
-                                {artist.name}
-                            </button>
-                        ))}
+                {artists.length > 0 && (
+                    <div className="col-md-4 mb-5">
+                        <h2 className={`text-center display-4 ${isDarkMode ? 'text-light' : 'text-dark'} mb-4`}>Artists</h2>
+                        <div className="list-group">
+                            {artists.map((artist) => (
+                                <button
+                                    key={artist.id}
+                                    type="button"
+                                    className={`list-group-item list-group-item-action rounded-lg text-center ${selectedArtist === artist.id ? "active" : ""}`}
+                                    onClick={() => handleArtistClick(artist.id)}
+                                >
+                                    {artist.name}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
+
                 <div className="col-md-8 mb-5">
                     {selectedArtist !== null && (
                         <div>
