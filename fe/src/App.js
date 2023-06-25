@@ -15,29 +15,50 @@ export default function App() {
 
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/api/v1/artist").then((response) => {
-            setArtists(response.data.artists);
+            if (response.data.artists) {
+                setArtists(response.data.artists);
+            } else {
+                console.log("No data was returned by the API");
+            }
+        }).catch((error) => {
+            console.log(error);
         });
     }, []);
-
+    
     useEffect(() => {
         if (selectedArtist !== null) {
             axios
                 .get(`http://127.0.0.1:8000/api/v1/artist/${selectedArtist}`)
                 .then((response) => {
-                    setTracks(response.data.tracks);
+                    if (response.data.tracks) {
+                        setTracks(response.data.tracks);
+                    } else {
+                        console.log("No tracks were returned by the API");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
         }
     }, [selectedArtist]);
-
+    
     useEffect(() => {
         if (selectedTrack !== null) {
             axios
                 .get(`http://127.0.0.1:8000/api/v1/song/${selectedTrack}`)
                 .then((response) => {
-                    setLyrics([response.data]);
+                    if (response.data) {
+                        setLyrics([response.data]);
+                    } else {
+                        console.log("No lyrics were returned by the API");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
         }
     }, [selectedTrack]);
+    
 
     useEffect(() => {
         function handleScroll() {
