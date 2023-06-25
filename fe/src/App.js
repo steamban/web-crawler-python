@@ -10,6 +10,8 @@ export default function App() {
     const [selectedTrack, setSelectedTrack] = useState(null);
     const [lyrics, setLyrics] = useState([]);
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [showScrollButton, setShowScrollButton] = useState(false);
+
 
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/api/v1/artist").then((response) => {
@@ -37,6 +39,23 @@ export default function App() {
         }
     }, [selectedTrack]);
 
+    useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 0) {
+                setShowScrollButton(true);
+            } else {
+                setShowScrollButton(false);
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+
     function handleArtistClick(id) {
         if (id !== selectedArtist) {
             setSelectedArtist(id);
@@ -52,12 +71,12 @@ export default function App() {
             setLyrics([]);
         }
     }
-    
+
     function handleDarkModeToggle() {
         setIsDarkMode(prevMode => !prevMode);
         document.body.classList.toggle("dark-mode");
     }
-    
+
 
     return (
         <div className={`container-fluid p-5 ${isDarkMode ? "dark-mode" : ""}`}>
@@ -123,6 +142,19 @@ export default function App() {
                             ))}
                         </div>
                     )}
+                    {showScrollButton && (
+                        <button
+                            type="button"
+                            className={`btn btn-content position-fixed bottom-0 end-0 mb-3 me-3 ${isDarkMode ? "btn-light" : "btn-dark"
+                                }`}
+                            style={{ maxWidth: '70px' }}
+                            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                        >
+                            <i className="bi bi-arrow-up-circle fs-2"></i>
+                        </button>
+                    )}
+
+
                 </div>
             </div>
             <button
