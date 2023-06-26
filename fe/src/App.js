@@ -120,6 +120,15 @@ export default function App() {
 
         alert("Please wait while collect the data. This may take some time.");
 
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner');
+    
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+    
+        document.body.appendChild(spinner);
+        document.body.appendChild(overlay);
+
         axios.post('http://localhost:8000/api/v1/crawl', {
             param1: nartists,
             param2: ntracks
@@ -130,7 +139,11 @@ export default function App() {
             })
             .catch((error) => {
                 console.error(error);
-            });
+            })
+            .finally(() => {
+            spinner.remove();
+            overlay.remove();
+        });
     }
 
 
